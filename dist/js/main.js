@@ -6,7 +6,9 @@ var scope = '',
     stateData = null,
     stateLayer, lgaLayer,
     lgaLabels = [],
-    showLga = false
+    wardLabels = [],
+    showLga = false,
+    showWard = false
 
 var map = L.map('map', {
     center: [10, 8],
@@ -17,6 +19,27 @@ var map = L.map('map', {
         crs: L.CRS.EPSG4326*/
         //layers:[stateLayer]
 });
+
+// Slider Range
+/*
+var lowerlimit, upperlimit;
+  $(function() {
+    $( "#slider-range" ).slider({
+    range: true,
+    min: 1997,
+    max: 2015,
+    values: [ 1997, 2015 ],
+    slide: function( event, ui ) {
+      $( "#amount" ).val(ui.values[ 0 ] + "  -  " + ui.values[ 1 ] );
+    }
+  });
+  $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
+    "  -  " + $( "#slider-range" ).slider( "values", 1 ) );
+
+  })
+*/
+
+
 
 
 map.fitBounds([
@@ -62,6 +85,26 @@ function adjustLayerbyZoom(zoomLevel) {
 
         showLga = false
     }
+
+  // Show ward level
+  if (zoomLevel > 9) {
+        if (!showWard) {
+            map.addLayer(wardLayer)
+                //Add labels to the LGAs
+            for (var i = 0; i < wardLabels.length; i++) {
+                wardLabels[i].addTo(map)
+            }
+            showWard = true
+        }
+    } else {
+        map.removeLayer(wardLayer)
+        for (var i = 0; i < wardLabels.length; i++) {
+            map.removeLayer(wardLabels[i])
+        }
+
+        showWard = false
+    }
+
 }
 
 function triggerUiUpdate() {
@@ -216,22 +259,6 @@ function addDataToMap(geoData) {
 
 }
 
-/*
-
-var hoverStyle = {
-    "fillOpacity": 0.5
-};
-
-$.ajax({
-    type: "POST",
-    url: "http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM nigeria_state_boundary",
-    dataType: 'json',
-    success: function (response) {
-        stateLayer = L.geoJson(response, {
-            style: style
-        }).addTo(map);
-    }
-});*/
 
 function addAdminLayersToMap(layers) {
     var layerStyles = {
@@ -250,19 +277,17 @@ function addAdminLayersToMap(layers) {
                 "weight": 1.5,
                 "opacity": 0.4,
                 "fillOpacity": 0.1
+            },
+            'ward': {
+                "clickable": true,
+                "color": '#0000FF',
+                "fillColor": '#FFFFFF',
+                "weight": 1.5,
+                "opacity": 0.4,
+                "fillOpacity": 0.1
             }
         }
-        /*
-        pointToLayer: function (feature, latlng) {
-            var marker = L.circleMarker(latlng, allColours[feature.properties.sector])
-                //markerGroup.addLayer(marker);
-            return marker
-        }
 
-
-        console.log(layers)
-console.log(layers['state'])*/
-        //console.log("state", layers['state'])
     stateLayer = L.geoJson(layers['state'], {
         style: layerStyles['state']
     }).addTo(map)
@@ -270,31 +295,31 @@ console.log(layers['state'])*/
         style: layerStyles['lga'],
         onEachFeature: function (feature, layer) {
             var labelIcon = L.divIcon({
-                className: 'label-icon',
+                className: 'labelLga-icon',
                 html: feature.properties.LGAName
             })
             lgaLabels.push(L.marker(layer.getBounds().getCenter(), {
                     icon: labelIcon
                 }))
-                //layer.bindPopup(feature.properties.LGAName)
+
+        }
+    })
+
+        wardLayer = L.geoJson(layers['ward'], {
+        style: layerStyles['ward'],
+        onEachFeature: function (feature, layer) {
+            var labelIcon = L.divIcon({
+                className: 'labelWard-icon',
+                html: feature.properties.WardName
+            })
+            wardLabels.push(L.marker(layer.getBounds().getCenter(), {
+                    icon: labelIcon
+                }))
+
         }
     })
 }
 
-
-/**
-L.geoJson(geoJsonData, {
-  onEachFeature: function(feature, layer) {
-    var label = L.marker(layer.getBounds().getCenter(), {
-      icon: L.divIcon({
-        className: 'label',
-        html: feature.properties.NAME,
-        iconSize: [100, 40]
-      })
-    }).addTo(map);
-  }
-);
-*/
 
 function displayInfo(feature) {
     //console.log('displaying info..')
@@ -355,6 +380,15 @@ function getAdminLayers() {
         }).fail(function () {
             logError(null)
         })
+
+        $.get('resources/wards.geojson', function (wardData){
+              adminLayers['ward'] = JSON.parse(wardData)
+                //return the layers
+              addAdminLayersToMap(adminLayers)
+        }).fail(function () {
+            logError(null)
+        })
+
     }).fail(function () {
         logError(null) //TODO: Fix this terrible code
     })
