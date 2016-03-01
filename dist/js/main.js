@@ -251,7 +251,7 @@ function addAdminLayersToMap(layers) {
             },
             'lga': {
                 "clickable": true,
-                "color": '#0000FF',
+                "color": '#A52A2A',
                 "fillColor": '#FFFFFF',
                 "weight": 1.5,
                 "opacity": 0.4,

@@ -2,9 +2,9 @@
     height: 860px;
 }
 
-.skin-blue .wrapper,
-.skin-blue .main-sidebar,
-.skin-blue .left-side {
+.skin-red-light .wrapper,
+.skin-red-light .main-sidebar,
+.skin-red-light .left-side {
     background-color: rgba(0, 0, 0, 0.62);
 }
 
@@ -80,8 +80,10 @@
 }
 
 .labelLga-icon {
-    color: red;
-    font-size: 10px;
+    color: darkmagenta;
+    font-weight:bold;
+    font-size: 12px;
+    text-shadow: '#ffffff';
 }
 
 .labelWard-icon {
