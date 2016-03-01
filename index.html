@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>BMGF Grant Map | eHealth Africa</title>
+    <title>Conflicts and Security Map | eHealth Africa</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -23,7 +23,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
-    <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+    <link rel="stylesheet" href="dist/css/skins/skin-red-light.min.css">
 
     <link rel="stylesheet" href="plugins/leaflet/leaflet.css">
 
@@ -34,31 +36,81 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="plugins/MarkerCluster/MarkerCluster.Default.css">
 
      <!-- JQuery Slider -->
-
-
+    <link rel="stylesheet" href="dist/css/jquery-ui.css">
+    <link rel="stylesheet" href="dist/css/iThing.css">
 
 
 
 </head>
 
-<body class="hold-transition skin-blue layout-top-nav">
+<body class="hold-transition skin-red-light sidebar-mini">
     <div class="wrapper">
 
         <!-- Main Header -->
         <header class="main-header">
+          <a href="#" class="logo">
+            <span class="logo-lg"><b>Security </b> MAP</span>
+          </a>
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="navbar-brand"><b>BMGF Grant Map</b></a>
-                <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
+                  <span class="sr-only">Toggle navigation </span>
                 </a>
                 <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
 
-                    </ul>
+              <div class="navbar-custom-menu">
+              <div class="alert alert-info sideColor">
+                    <h4><i class="icon fa fa-fire"></i>Conflicts Category</h4>
+                      <div class="form-group">
+                        <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
+                            <option value="">All</option>
+                            <option value="Civil Conflicts">Civil Conflicts</option>
+                            <option value="Kidnapping/Abduction">Kidnapping/Abduction</option>
+                            <option value="Assassination/Homicide/Armed Robbery">Assassination/Homicide/Armed Robbery</option>
+                            <option value="Insurgency/Terrorists Attacks">Insurgency/Terrorists Attacks</option>
+                            <option value="Religious Conflicts">Religious Conflicts</option>
+                            <option value="Protests/Demonstrations">Protests/Demonstrations</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
                 </div>
+              </div>
+
+              <div class="navbar-custom-menu">
+              <div class="alert alert-info sideColor">
+                <h4><i class="icon fa fa-calendar-check-o"></i>Year Ranges</h4>
+                  <div class="form-group">
+                    <!--<label for="amount"> Year Ranges: </label>-->
+                    <input type="text" id="amount" readonly style="border:1; color:#000000; font-weight:bold; text-align:center">
+                  </div>
+                <div id="slider-range"></div>
+
+                </div>
+              </div>
+
+              <div class="navbar-custom-menu">
+                     <div class="alert alert-info sideColor">
+                        <h4><i class="icon fa fa-calendar-check-o"></i>Month </h4>
+                      <div class="form-group">
+                        <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
+                            <option value="">All</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                      </div>
+                  </div>
+                </div>
+
             </nav>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
@@ -73,7 +125,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 </div>
               </section>
-                <div class="alert alert-info sideColor">
+               <!-- <div class="alert alert-info sideColor">
                     <h4><i class="icon fa fa-arrows"></i>Month </h4>
                     <div class="form-group">
                         <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
@@ -93,9 +145,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </select>
                     </div>
 
-                </div>
+                </div>-->
                 <div class="row"></div>
-                <div class="alert alert-info sideColor">
+                <!--<div class="alert alert-info sideColor">
                     <h4><i class="icon fa  fa-crosshairs"></i>Conflicts Category</h4>
                       <div class="form-group">
                         <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
@@ -109,7 +161,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <option value="Others">Others</option>
                         </select>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row"></div>
 
@@ -137,7 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <!-- /.box-header -->
                         <div id="infoContent" class="box-body black info-box">
-                            <p>Click on any of the Project points to see full information here..</p>
+                            <h5>Click on any of the Project points to see full information here... </h5>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -174,6 +226,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- jQuery 2.1.4 -->
 
+        <script src="dist/js/slider.js"></script>
         <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
         <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
         <script src="plugins/slimScroll/jquery.slimscroll.js"></script>
@@ -187,7 +240,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- JQuery Slider -->
       <script src="plugins/jQuery/jquery-ui.js"></script>
-      <!--<script src="plugins/jQuery/jquery.mobile-1.4.5.min.js"></script>-->
+      <script src="dist/js/jquery-ui.js"></script>
+
 
     </div>
 </body>

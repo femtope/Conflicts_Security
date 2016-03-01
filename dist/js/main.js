@@ -6,9 +6,9 @@ var scope = '',
     stateData = null,
     stateLayer, lgaLayer,
     lgaLabels = [],
-    wardLabels = [],
-    showLga = false,
-    showWard = false
+    //wardLabels = [],
+    showLga = false
+    //showWard = false
 
 var map = L.map('map', {
     center: [10, 8],
@@ -19,27 +19,6 @@ var map = L.map('map', {
         crs: L.CRS.EPSG4326*/
         //layers:[stateLayer]
 });
-
-// Slider Range
-/*
-var lowerlimit, upperlimit;
-  $(function() {
-    $( "#slider-range" ).slider({
-    range: true,
-    min: 1997,
-    max: 2015,
-    values: [ 1997, 2015 ],
-    slide: function( event, ui ) {
-      $( "#amount" ).val(ui.values[ 0 ] + "  -  " + ui.values[ 1 ] );
-    }
-  });
-  $( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
-    "  -  " + $( "#slider-range" ).slider( "values", 1 ) );
-
-  })
-*/
-
-
 
 
 map.fitBounds([
@@ -85,7 +64,7 @@ function adjustLayerbyZoom(zoomLevel) {
 
         showLga = false
     }
-
+/*
   // Show ward level
   if (zoomLevel > 9) {
         if (!showWard) {
@@ -103,7 +82,7 @@ function adjustLayerbyZoom(zoomLevel) {
         }
 
         showWard = false
-    }
+    }*/
 
 }
 
@@ -272,20 +251,22 @@ function addAdminLayersToMap(layers) {
             },
             'lga': {
                 "clickable": true,
-                "color": '#244B54',
-                "fillColor": '#FFFFFF',
-                "weight": 1.5,
-                "opacity": 0.4,
-                "fillOpacity": 0.1
-            },
-            'ward': {
-                "clickable": true,
                 "color": '#0000FF',
                 "fillColor": '#FFFFFF',
                 "weight": 1.5,
                 "opacity": 0.4,
                 "fillOpacity": 0.1
             }
+      //,
+
+            /*'ward': {
+                "clickable": true,
+                "color": '#0000FF',
+                "fillColor": '#FFFFFF',
+                "weight": 1.5,
+                "opacity": 0.4,
+                "fillOpacity": 0.1
+            }*/
         }
 
     stateLayer = L.geoJson(layers['state'], {
@@ -305,7 +286,7 @@ function addAdminLayersToMap(layers) {
         }
     })
 
-        wardLayer = L.geoJson(layers['ward'], {
+/*        wardLayer = L.geoJson(layers['ward'], {
         style: layerStyles['ward'],
         onEachFeature: function (feature, layer) {
             var labelIcon = L.divIcon({
@@ -317,7 +298,7 @@ function addAdminLayersToMap(layers) {
                 }))
 
         }
-    })
+    })*/
 }
 
 
@@ -381,14 +362,14 @@ function getAdminLayers() {
             logError(null)
         })
 
-        $.get('resources/wards.geojson', function (wardData){
+       /* $.get('resources/wards.geojson', function (wardData){
               adminLayers['ward'] = JSON.parse(wardData)
                 //return the layers
               addAdminLayersToMap(adminLayers)
         }).fail(function () {
             logError(null)
         })
-
+*/
     }).fail(function () {
         logError(null) //TODO: Fix this terrible code
     })
