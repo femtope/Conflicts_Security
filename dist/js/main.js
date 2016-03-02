@@ -30,6 +30,62 @@ map.on('zoomend', function () {
 })
 
 
+// Function Testing
+var lowerlimit, upperlimit;
+$(function() {
+$( "#slider-range" ).slider({
+range: true,
+min: 1997,
+max: 2015,
+values: [ 1997, 2015 ],
+slide: function( event, ui ) {
+
+$( "#amount" ).val(ui.values[ 0 ] + "  -  " + ui.values[ 1 ] );
+}
+});
+$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
+"  -  " + $( "#slider-range" ).slider( "values", 1 ) );
+});
+
+var a, b, c, yr, yrs, month, year, conType;
+
+function myYear(yr)
+{
+    yr = document.getElementById("amount").value;
+    yrs = yr.split('  -  ');
+    year = "Year is Between "+yrs[0]+" AND "+yrs[1];
+    console.log(year);
+    return;
+}
+
+
+function myMonth()
+{
+    a = document.getElementById("monthScope");
+    month = a.options[a.selectedIndex].text;
+    console.log(month);
+}
+
+
+function myConflict()
+{
+    b = document.getElementById("categoryScope");
+    conType = b.options[b.selectedIndex].text;
+    console.log(conType);
+    return;
+}
+
+function myExecute()
+{
+    myYear();
+    console.log(month+"===="+conType+"======"+year);
+   // console.log(conType);
+
+}
+
+//End function Testing
+
+
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18
 }).addTo(map);
@@ -120,7 +176,7 @@ function toggleClass(id) {
 function buildQuery(_scope, _sectors) {
     //returns geojson
     var containsAnd = false;
-    query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM granteedata_copy';
+    query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM conflict_and_location_data';
     query = (_scope.length > 0 || _sectors.length > 0) ? query.concat(' WHERE') : query;
     if (_scope.length > 0) {
         query = (_sectors.length > 0) ? query.concat(" scope_of_work = '".concat(scope.concat("' AND"))) : query.concat(" scope_of_work = '".concat(scope.concat("'")))
@@ -156,31 +212,31 @@ function addDataToMap(geoData) {
     var _fillOpacity = 0.5
 
     var allColours = {
-        'Nutrition': {
+        'Assassination/Homicide/Armed Robbery': {
             radius: _radius,
-            fillColor: "#ff7800",
+            fillColor: "#ffff00",
             color: _outColor,
             weight: _weight,
             opacity: _opacity,
             fillOpacity: _fillOpacity
         },
-        'Agriculture': {
+        'Civil Conflicts': {
             radius: _radius,
-            fillColor: "#33cc33",
+            fillColor: "#008000",
             color: _outColor,
             weight: _weight,
             opacity: _opacity,
             fillOpacity: _fillOpacity
         },
-        'Health': {
+        'Kidnapping/Abduction': {
             radius: _radius,
-            fillColor: "#0099cc",
+            fillColor: "#00ffff",
             color: _outColor,
             weight: _weight,
             opacity: _opacity,
             fillOpacity: _fillOpacity
         },
-        'Education': {
+        'Insurgency/Terrorists Attacks': {
             radius: _radius,
             fillColor: "#ffff66",
             color: _outColor,
@@ -188,17 +244,25 @@ function addDataToMap(geoData) {
             opacity: _opacity,
             fillOpacity: _fillOpacity
         },
-        'Research': {
+        'Religious Conflicts': {
             radius: _radius,
-            fillColor: "#ee82ee",
+            fillColor: "#800080",
             color: _outColor,
             weight: _weight,
             opacity: _opacity,
             fillOpacity: _fillOpacity
         },
-        'Finance': {
+        'Protests/Demonstrations': {
             radius: _radius,
-            fillColor: "#cc3300",
+            fillColor: "#a52a2a",
+            color: _outColor,
+            weight: _weight,
+            opacity: _opacity,
+            fillOpacity: _fillOpacity
+        },
+        'Others': {
+            radius: _radius,
+            fillColor: "#ff00ff",
             color: _outColor,
             weight: _weight,
             opacity: _opacity,
@@ -319,7 +383,7 @@ function normalizeName(source) {
 
 function buildPopupContent(feature) {
     var subcontent = ''
-    var propertyNames = ['sector', 'state', 'scope_of_work', 'duration', 'bmgf_point', 'grantee_organisation', 'beneficiary', 'title_of_grant', 'nature_of_work', 'focal_state', 'organisation']
+    var propertyNames = ['year', 'event_date', 'event_month', 'event_type', 'actor1', 'inter1', 'actor2', 'ally_actor_2', 'admin1', 'admin2', 'location', 'source', 'notes', 'fatalities']
     for (var i = 0; i < propertyNames.length; i++) {
         subcontent = subcontent.concat('<p><strong>' + normalizeName(propertyNames[i]) + ': </strong>' + feature.properties[propertyNames[i]] + '</p>')
 

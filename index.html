@@ -43,26 +43,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </head>
 
-<body class="hold-transition skin-red-light sidebar-mini">
+<body class="hold-transition skin-red-light layout-top-nav">
     <div class="wrapper">
 
         <!-- Main Header -->
         <header class="main-header">
-          <a href="#" class="logo">
-            <span class="logo-lg"><b>Security </b> MAP</span>
-          </a>
-            <!-- Header Navbar -->
-            <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <!-- Header Navbar -->
+          <nav class="navbar navbar-static-top" role="navigation">
+            <a href="#" class="navbar-brand"><strong class="special-size"><b>Conflicts and Security </b> MAP </strong></a>
+            <!-- Sidebar Toggle Button -->
+              <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                   <span class="sr-only">Toggle navigation </span>
                 </a>
                 <!-- Navbar Right Menu -->
 
               <div class="navbar-custom-menu">
               <div class="alert alert-info sideColor">
-                    <h4><i class="icon fa fa-fire"></i>Conflicts Category</h4>
+                    <h4 class="special-size1"><i class="icon fa fa-fire"></i>Conflicts Category</h4>
                       <div class="form-group">
-                        <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
+                        <select id="categoryScope" onchange="myConflict()" class="form-control">
+                            <option value="">All</option>
                             <option value="Civil Conflicts">Civil Conflicts</option>
                             <option value="Kidnapping/Abduction">Kidnapping/Abduction</option>
                             <option value="Assassination/Homicide/Armed Robbery">Assassination/Homicide/Armed Robbery</option>
@@ -77,10 +77,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <div class="navbar-custom-menu">
               <div class="alert alert-info sideColor">
-                <h4><i class="icon fa fa-calendar-check-o"></i>Year Ranges</h4>
+                <h4 class="special-size1"><i class="icon fa fa-calendar-check-o"></i>Year Ranges</h4>
                   <div class="form-group">
                     <!--<label for="amount"> Year Ranges: </label>-->
-                    <input type="text" id="amount" readonly style="border:1; color:#000000; font-weight:bold; text-align:center">
+                    <input type="text" id="amount" readonly style="border:1; color:#000000; font-weight:bold; text-align:center" onclick="myYear(this)">
                   </div>
                 <div id="slider-range"></div>
 
@@ -89,7 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <div class="navbar-custom-menu">
                      <div class="alert alert-info sideColor">
-                        <h4><i class="icon fa fa-calendar-check-o"></i>Month </h4>
+                        <h4 class="special-size1"><i class="icon fa fa-calendar-check-o"></i>Month </h4>
                       <div class="form-group">
                         <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
                             <option value="">All</option>
@@ -112,27 +112,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             </nav>
         </header>
+
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar main-sidebar-light sidebar_edit">
-            <section class="sidebar">
+
+          <section class="sidebar"><div></div></section>
+          <section class="sidebar"><div></div></section>
+          <section class="sidebar"><div></div></section>
+          <section class="sidebar"><div></div></section>
+          <section class="sidebar">
                 <div class="row">
                     <h3 class="white text-center"><i class="icon fa fa-spinner"></i></h3>
                 </div>
-              <section class="sidebar">
+              <!--<section class="sidebar">-->
                 <div class="alert alert-info sidecolor">
                   <div class="row"></div>
 
                 </div>
                 <div class="row"></div>
                 <div class="row"></div>
-              </section>
+            <!--  </section>-->
 
             </section>
             <section class="sidebar">
                 <div class="row"></div>
-                <div class="text-left">
-                    <span class="info-box-text white">&nbsp;&nbsp;&nbsp;&nbsp;Currently Displaying:</span>
-                    <span class="info-box-number white">&nbsp;&nbsp;&nbsp;&nbsp;<big id="projectCount">0</big> Conflict Issues</span>
+                <div class="text-center">
+                    <span class="info-box-text white">Currently Displaying:</span>
+                    <span class="info-box-number white"><big id="projectCount">0</big> Conflict Issues</span>
 
                 </div>
             </section>
@@ -141,107 +147,84 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </section>
 
             <section class="sidebar">
-                <!--<div class="row"></div>-->
-                <div class="text-left">
-                  <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp;Civil Conflicts</small></span>
-                          <div class="col-md-3">
-                            <div class="progress sm">
-                              <div class="progress-bar One-color" style="width: 100%"></div>
-                            </div>
+
+                <div class="row">
+                  <span>  <div class="col-md-2">
+                              <div class="progress-bar progress sm One-color" style="width: 100%"></div>
                           </div>
+                  </span>
+                  <span class="info-box-number white"><small class="pad">Civil Conflicts</small></span>
                 </div>
-              </section>
 
-              <section class="sidebar">
-                <div class="row"></div>
-                <div class="text-left">
-                    <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp;Kidnapping/Abduction</small></span>
-                            <div class="col-md-3">
-                              <div class="progress sm">
-                                <div class="progress-bar Two-color" style="width: 100%"></div>
-                              </div>
+                <div class="row">
+                    <span>  <div class="col-md-2">
+                                <div class="progress-bar progress sm Two-color" style="width: 100%"></div>
                             </div>
-                  </div>
-                </section>
-
-                <section class="sidebar">
-                <div class="row"></div>
-                <div class="text-left">
-                  <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp;Assassination/Homicide/Armed Robbery</small></span>
-                          <div class="col-md-3">
-                            <div class="progress sm">
-                              <div class="progress-bar Three-color" style="width: 100%"></div>
-                            </div>
-                          </div>
+                    </span>
+                    <span class="info-box-number white"><small class="pad">Kidnapping/Abduction</small></span>
                 </div>
-              </section>
 
-              <section class="sidebar">
-                <div class="row"></div>
-                <div class="text-left">
-                    <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp; Insurgency/Terrorists Attacks</small></span>
-                            <div class="col-md-3">
-                              <div class="progress sm">
-                                <div class="progress-bar Four-color" style="width: 100%"></div>
-                              </div>
+                <div class="row">
+                    <span>  <div class="col-md-2">
+                                <div class="progress-bar progress sm Three-color" style="width: 100%"></div>
                             </div>
-                  </div>
-                </section>
-
-                <section class="sidebar">
-                <div class="row"></div>
-                <div class="text-left">
-                  <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp;Religious Conflicts</small></span>
-                          <div class="col-md-3">
-                            <div class="progress sm">
-                              <div class="progress-bar Five-color" style="width: 100%"></div>
-                            </div>
-                          </div>
+                    </span>
+                    <span class="info-box-number white"><small class="pad">Assassination/Homicide/Armed Robber</small></span>
                 </div>
-              </section>
 
-              <section class="sidebar">
-                <div class="row"></div>
-                <div class="text-left">
-                    <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp; Protests/Demonstrations</small></span>
-                            <div class="col-md-3">
-                              <div class="progress sm">
-                                <div class="progress-bar Six-color" style="width: 100%"></div>
-                              </div>
+                <div class="row">
+                    <span>  <div class="col-md-2">
+                                <div class="progress-bar progress sm Four-color" style="width: 100%"></div>
                             </div>
-                  </div>
-                </section>
+                    </span>
+                    <span class="info-box-number white"><small class="pad">Insurgency/Terrorists Attacks</small></span>
+                </div>
 
-                <section class="sidebar">
-                <div class="row"></div>
-                <div class="text-left">
-                    <span class="info-box-number white"><small>&nbsp;&nbsp;&nbsp; Others</small></span>
-                            <div class="col-md-3">
-                              <div class="progress sm">
-                                <div class="progress-bar Seven-color" style="width: 100%"></div>
-                              </div>
+              <div class="row">
+                    <span>  <div class="col-md-2">
+                                <div class="progress-bar progress sm Five-color" style="width: 100%"></div>
                             </div>
-                  </div>
-                </section>
+                    </span>
+                    <span class="info-box-number white"><small class="pad">Religious Conflicts</small></span>
+              </div>
+
+              <div class="row">
+                    <span>  <div class="col-md-2">
+                                <div class="progress-bar progress sm Six-color" style="width: 100%"></div>
+                            </div>
+                    </span>
+                    <span class="info-box-number white"><small class="pad">Protests/Demonstrations</small></span>
+              </div>
+
+
+                <div class="row">
+                    <span>  <div class="col-md-2">
+                                <div class="progress-bar progress sm Seven-color" style="width: 100%"></div>
+                            </div>
+                    </span>
+                    <span class="info-box-number white"><small class="pad">Others</small></span>
+                </div>
+
+            </section>
 
 
             <section>
                 <div class="row"></div>
                 <div class="alert alert-info sideColor">
-                    <!-- <h4><i class="icon fa  fa-info-circle"></i>Info</h4>-->
+
                     <div class="box box-primary box-solid">
                         <div class="box-header with-border">
                             <h3 class="box-title">Info</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             </div>
-                            <!-- /.box-tools -->
+
                         </div>
-                        <!-- /.box-header -->
+
                         <div id="infoContent" class="box-body black info-box">
                             <h5>Click on any of the Project points to see full information here... </h5>
                         </div>
-                        <!-- /.box-body -->
+
                     </div>
 
                 </div>
