@@ -91,3 +91,31 @@
     text-shadow: '#ffffff';
     font-size: bold 10px;
 }
+
+.One-color {
+    background-color: green;
+}
+
+.Two-color {
+    background-color: aqua;
+}
+
+.Three-color {
+    background-color: yellow;
+}
+
+.Four-color {
+    background-color: red;
+  }
+
+.Five-color {
+    background-color: purple;
+}
+
+.Six-color {
+    background-color: brown;
+}
+
+.Seven-color {
+    background-color: magenta;
+}
