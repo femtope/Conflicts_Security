@@ -176,7 +176,7 @@ function toggleClass(id) {
 function buildQuery(_scope, _sectors) {
     //returns geojson
     var containsAnd = false;
-    query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM conflict_and_location_data';
+    query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM conflict_and_security_data';
     query = (_scope.length > 0 || _sectors.length > 0) ? query.concat(' WHERE') : query;
     if (_scope.length > 0) {
         query = (_sectors.length > 0) ? query.concat(" scope_of_work = '".concat(scope.concat("' AND"))) : query.concat(" scope_of_work = '".concat(scope.concat("'")))
@@ -383,7 +383,7 @@ function normalizeName(source) {
 
 function buildPopupContent(feature) {
     var subcontent = ''
-    var propertyNames = ['year', 'event_date', 'event_month', 'event_type', 'actor1', 'inter1', 'actor2', 'ally_actor_2', 'admin1', 'admin2', 'location', 'source', 'notes', 'fatalities']
+    var propertyNames = ['event_type', 'event_year', 'event_month', 'event_date', 'state', 'lga', 'location', 'source', 'perpetrator', 'notes', 'fatalities', 'conflict_scenario']
     for (var i = 0; i < propertyNames.length; i++) {
         subcontent = subcontent.concat('<p><strong>' + normalizeName(propertyNames[i]) + ': </strong>' + feature.properties[propertyNames[i]] + '</p>')
 
