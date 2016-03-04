@@ -7,18 +7,15 @@ var monthSelect = '',
     stateData = null,
     stateLayer, lgaLayer,
     lgaLabels = [],
-    //wardLabels = [],
     showLga = false
-    //showWard = false
+
 
 var map = L.map('map', {
     center: [10, 8],
     zoom: 8,
     zoomControl: false,
     minZoom: 6
-        /*,
-        crs: L.CRS.EPSG4326*/
-        //layers:[stateLayer]
+
 });
 
 
@@ -65,25 +62,6 @@ function adjustLayerbyZoom(zoomLevel) {
 
         showLga = false
     }
-/*
-  // Show ward level
-  if (zoomLevel > 9) {
-        if (!showWard) {
-            map.addLayer(wardLayer)
-                //Add labels to the LGAs
-            for (var i = 0; i < wardLabels.length; i++) {
-                wardLabels[i].addTo(map)
-            }
-            showWard = true
-        }
-    } else {
-        map.removeLayer(wardLayer)
-        for (var i = 0; i < wardLabels.length; i++) {
-            map.removeLayer(wardLabels[i])
-        }
-
-        showWard = false
-    }*/
 
 }
 
@@ -95,36 +73,10 @@ function triggerUiUpdate() {
 
     var query = buildQuery(monthSelect, yrs, conflictScenario)
     console.log("QUERY:  ",query)
-    showLoader()
     getData(query)
 }
 
-/*
-function buildSelectedSectors(sector) {
-    var idx = sectors.indexOf(sector)
-    if (idx > -1)
-        sectors.splice(idx, 1)
-    else if (idx == -1) {
-        if (sector != null)
-            sectors.push(sector)
-    }
-    toggleClass(sector)
-    triggerUiUpdate()
-}
-*/
 
-function toggleClass(id) {
-    /*console.log("Selected", id)*/
-    if (id != null) {
-        if ($('#'.concat(id)).hasClass('btn-primary')) {
-            $('#'.concat(id)).removeClass('btn-primary')
-            $('#'.concat(id)).addClass('btn-'.concat(id))
-        } else if ($('#'.concat(id)).hasClass('btn-'.concat(id))) {
-            $('#'.concat(id)).removeClass('btn-'.concat(id))
-            $('#'.concat(id)).addClass('btn-primary')
-        }
-    }
-}
 
 function buildQuery(monthSelect, yearRange, conflictScenario) {
   var needsAnd = false;
@@ -148,14 +100,7 @@ function buildQuery(monthSelect, yearRange, conflictScenario) {
   }
   return query
 
-
 }
-
-/*console.log(buildQuery("September",[2000,2008], "Kidnapping/Abduction"))
-console.log(buildQuery("",[2000,2008], "Kidnapping/Abduction"))
-console.log(buildQuery("September",[2000,2008], ""))
-console.log(buildQuery("September",[2008], ""))
-console.log(buildQuery("","", ""))*/
 
 //TODO: fix the issue of lga layer not reoving after data filtering
 function addDataToMap(geoData) {
@@ -192,7 +137,7 @@ function addDataToMap(geoData) {
             opacity: _opacity,
             fillOpacity: _fillOpacity
         },
-        'Kidnapping/Abduction': {
+        'Kidnapping/Abductions': {
             radius: _radius,
             fillColor: "#00ffff",
             color: _outColor,
@@ -202,7 +147,7 @@ function addDataToMap(geoData) {
         },
         'Insurgency/Terrorists Attacks': {
             radius: _radius,
-            fillColor: "#ffff66",
+            fillColor: "#ff0000",
             color: _outColor,
             weight: _weight,
             opacity: _opacity,
@@ -266,7 +211,6 @@ function addDataToMap(geoData) {
 
 }
 
-
 function addAdminLayersToMap(layers) {
     var layerStyles = {
             'state': {
@@ -285,17 +229,7 @@ function addAdminLayersToMap(layers) {
                 "opacity": 0.4,
                 "fillOpacity": 0.1
             }
-      //,
-
-            /*'ward': {
-                "clickable": true,
-                "color": '#0000FF',
-                "fillColor": '#FFFFFF',
-                "weight": 1.5,
-                "opacity": 0.4,
-                "fillOpacity": 0.1
-            }*/
-        }
+      }
 
     stateLayer = L.geoJson(layers['state'], {
         style: layerStyles['state']
@@ -314,19 +248,6 @@ function addAdminLayersToMap(layers) {
         }
     })
 
-/*        wardLayer = L.geoJson(layers['ward'], {
-        style: layerStyles['ward'],
-        onEachFeature: function (feature, layer) {
-            var labelIcon = L.divIcon({
-                className: 'labelWard-icon',
-                html: feature.properties.WardName
-            })
-            wardLabels.push(L.marker(layer.getBounds().getCenter(), {
-                    icon: labelIcon
-                }))
-
-        }
-    })*/
 }
 
 
@@ -390,14 +311,6 @@ function getAdminLayers() {
             logError(null)
         })
 
-       /* $.get('resources/wards.geojson', function (wardData){
-              adminLayers['ward'] = JSON.parse(wardData)
-                //return the layers
-              addAdminLayersToMap(adminLayers)
-        }).fail(function () {
-            logError(null)
-        })
-*/
     }).fail(function () {
         logError(null) //TODO: Fix this terrible code
     })
