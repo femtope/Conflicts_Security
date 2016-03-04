@@ -74,6 +74,7 @@ function triggerUiUpdate() {
     var query = buildQuery(monthSelect, yrs, conflictScenario)
     console.log("QUERY:  ",query)
     getData(query)
+    map.setZoom(6)
 }
 
 
@@ -114,11 +115,11 @@ function addDataToMap(geoData) {
         map.removeLayer(markerGroup)
 
 
-    var _radius = 10
+    var _radius = 12
     var _outColor = "#fff"
     var _weight = 1
     var _opacity = 1
-    var _fillOpacity = 0.5
+    var _fillOpacity = 1.0
 
     var allColours = {
         'Assassination/Homicide/Armed Robbery/Arm Assault': {
