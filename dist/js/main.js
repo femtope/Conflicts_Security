@@ -1,5 +1,6 @@
-var scope = '',
-    sectors = [],
+var monthSelect = '',
+    yearRange = [],
+    conflictScenario = '',
     geoData = null,
     dataLayer = null,
     markerGroup = null,
@@ -28,62 +29,6 @@ map.fitBounds([
 map.on('zoomend', function () {
     adjustLayerbyZoom(map.getZoom())
 })
-
-
-// Function Testing
-var lowerlimit, upperlimit;
-$(function() {
-$( "#slider-range" ).slider({
-range: true,
-min: 1997,
-max: 2015,
-values: [ 1997, 2015 ],
-slide: function( event, ui ) {
-
-$( "#amount" ).val(ui.values[ 0 ] + "  -  " + ui.values[ 1 ] );
-}
-});
-$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +
-"  -  " + $( "#slider-range" ).slider( "values", 1 ) );
-});
-
-var a, b, c, yr, yrs, month, year, conType;
-
-function myYear(yr)
-{
-    yr = document.getElementById("amount").value;
-    yrs = yr.split('  -  ');
-    year = "Year is Between "+yrs[0]+" AND "+yrs[1];
-    console.log(year);
-    return;
-}
-
-
-function myMonth()
-{
-    a = document.getElementById("monthScope");
-    month = a.options[a.selectedIndex].text;
-    console.log(month);
-}
-
-
-function myConflict()
-{
-    b = document.getElementById("categoryScope");
-    conType = b.options[b.selectedIndex].text;
-    console.log(conType);
-    return;
-}
-
-function myExecute()
-{
-    myYear();
-    console.log(month+"===="+conType+"======"+year);
-   // console.log(conType);
-
-}
-
-//End function Testing
 
 
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -143,11 +88,18 @@ function adjustLayerbyZoom(zoomLevel) {
 }
 
 function triggerUiUpdate() {
-    scope = $('#projectScope').val()
-    var query = buildQuery(scope, sectors)
+    conflictScenario = $('#categoryScope').val()
+    monthSelect = $('#monthScope').val()
+    yr = $("#amount").val();
+    yrs = yr.split('  -  ');
+
+    var query = buildQuery(monthSelect, yrs, conflictScenario)
+    console.log("QUERY:  ",query)
+    showLoader()
     getData(query)
 }
 
+/*
 function buildSelectedSectors(sector) {
     var idx = sectors.indexOf(sector)
     if (idx > -1)
@@ -159,6 +111,7 @@ function buildSelectedSectors(sector) {
     toggleClass(sector)
     triggerUiUpdate()
 }
+*/
 
 function toggleClass(id) {
     /*console.log("Selected", id)*/
@@ -173,25 +126,36 @@ function toggleClass(id) {
     }
 }
 
-function buildQuery(_scope, _sectors) {
-    //returns geojson
-    var containsAnd = false;
-    query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM conflict_and_security_data';
-    query = (_scope.length > 0 || _sectors.length > 0) ? query.concat(' WHERE') : query;
-    if (_scope.length > 0) {
-        query = (_sectors.length > 0) ? query.concat(" scope_of_work = '".concat(scope.concat("' AND"))) : query.concat(" scope_of_work = '".concat(scope.concat("'")))
+function buildQuery(monthSelect, yearRange, conflictScenario) {
+  var needsAnd = false;
+  query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM conflict_and_security_data';
+  if (monthSelect.length > 0 || yearRange.length > 0 || conflictScenario > 0){
+    query = query.concat(' WHERE')
+    if (conflictScenario.length > 0){
+      query = query.concat(" conflict_scenario = '".concat(conflictScenario.concat("'")))
+      needsAnd = true
     }
-    if (_sectors.length > 0) {
-        for (var i = 0; i < _sectors.length; i++) {
-            if (i == 0)
-                query = query.concat(" sector='" + _sectors[i] + "'");
-            else query = query.concat(" OR sector='" + _sectors[i] + "'")
-        }
+    if (monthSelect.length > 0){
+      query = needsAnd  ? query.concat(" AND event_month = '".concat(monthSelect.concat("'"))) :  query.concat(" event_month = '".concat(monthSelect.concat("'")))
+      needsAnd = true
     }
-    //console.log("Query ", query)
-    return query;
+
+    if (yearRange.length > 1){
+      query = needsAnd  ? query.concat(" AND event_year BETWEEN ".concat(yearRange[0]).concat(" AND ".concat(yearRange[1]))) : query = query.concat(" event_year BETWEEN ".concat(yearRange[0]).concat(" AND ".concat(yearRange[1])))
+    }
+
+    else query = 'http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM conflict_and_security_data';
+  }
+  return query
+
+
 }
 
+/*console.log(buildQuery("September",[2000,2008], "Kidnapping/Abduction"))
+console.log(buildQuery("",[2000,2008], "Kidnapping/Abduction"))
+console.log(buildQuery("September",[2000,2008], ""))
+console.log(buildQuery("September",[2008], ""))
+console.log(buildQuery("","", ""))*/
 
 //TODO: fix the issue of lga layer not reoving after data filtering
 function addDataToMap(geoData) {
@@ -212,7 +176,7 @@ function addDataToMap(geoData) {
     var _fillOpacity = 0.5
 
     var allColours = {
-        'Assassination/Homicide/Armed Robbery': {
+        'Assassination/Homicide/Armed Robbery/Arm Assault': {
             radius: _radius,
             fillColor: "#ffff00",
             color: _outColor,
@@ -281,7 +245,7 @@ function addDataToMap(geoData) {
         //console.log("geoData", geoData)
     dataLayer = L.geoJson(geoData, {
         pointToLayer: function (feature, latlng) {
-            var marker = L.circleMarker(latlng, allColours[feature.properties.sector])
+            var marker = L.circleMarker(latlng, allColours[feature.properties.conflict_scenario])
                 //markerGroup.addLayer(marker);
             return marker
         },

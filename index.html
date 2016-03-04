@@ -61,11 +61,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="alert alert-info sideColor">
                     <h4 class="special-size1"><i class="icon fa fa-fire"></i>Conflicts Category</h4>
                       <div class="form-group">
-                        <select id="categoryScope" onchange="myConflict()" class="form-control">
+                        <select id="categoryScope" onchange="triggerUiUpdate()" class="form-control">
                             <option value="">All</option>
                             <option value="Civil Conflicts">Civil Conflicts</option>
                             <option value="Kidnapping/Abduction">Kidnapping/Abduction</option>
-                            <option value="Assassination/Homicide/Armed Robbery">Assassination/Homicide/Armed Robbery/Arm Assault</option>
+                            <option value="Assassination/Homicide/Armed Robbery/Arm Assault">Assassination/Homicide/Armed Robbery/Arm Assault</option>
                             <option value="Insurgency/Terrorists Attacks">Insurgency/Terrorists Attacks</option>
                             <option value="Religious Conflicts">Religious Conflicts</option>
                             <option value="Protests/Demonstrations">Protests/Demonstrations</option>
@@ -80,7 +80,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <h4 class="special-size1"><i class="icon fa fa-calendar-check-o"></i>Year Ranges</h4>
                   <div class="form-group">
                     <!--<label for="amount"> Year Ranges: </label>-->
-                    <input type="text" id="amount" readonly style="border:1; color:#000000; font-weight:bold; text-align:center" onclick="myYear(this)">
+                    <input type="text" id="amount" readonly style="border:1; color:#000000; font-weight:bold; text-align:center" onclick="triggerUIUpdate()">
                   </div>
                 <div id="slider-range"></div>
 
@@ -91,7 +91,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                      <div class="alert alert-info sideColor">
                         <h4 class="special-size1"><i class="icon fa fa-calendar-check-o"></i>Month </h4>
                       <div class="form-group">
-                        <select id="projectScope" onchange="buildSelectedSectors(null)" class="form-control">
+                        <select id="monthScope" onchange="triggerUiUpdate()" class="form-control">
                             <option value="">All</option>
                             <option value="January">January</option>
                             <option value="February">February</option>
