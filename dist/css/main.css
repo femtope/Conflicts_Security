@@ -26,6 +26,10 @@
     color: black;
 }
 
+.red {
+    color: red;
+}
+
 .bg-aqua,
 .callout.callout-info,
 .alert-info,
@@ -145,8 +149,22 @@
     font: bold 22px "Agency FB";
 }
 
+.country{
+    font: 20px "Agency FB";
+}
+
 .detailbox {
-    font-size: 14px;
+    font-size: 13px;
     text-align: justify;
-    overflow: auto;
+    overflow-y: scroll;
+
+}
+
+#spinposition {
+    position: absolute;
+    top: 300px;
+    right: 700px;
+    width: 100px;
+    height: 100px;
+    background: transparent;
 }
