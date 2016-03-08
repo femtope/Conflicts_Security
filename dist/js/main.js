@@ -33,7 +33,9 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 new L.Control.Zoom({
-    position: 'topright'
+    position: 'topright',
+    zoomInTitle: 'Zoom In',
+    zoomOutTitle: 'Zoom Out'
 }).addTo(map);
 
 L.control.scale({
