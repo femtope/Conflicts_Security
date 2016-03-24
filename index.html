@@ -11,6 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>Conflicts and Security Map | eHealth Africa</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+   <link rel="stylesheet" href="dist/css/globe.css">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -109,6 +110,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                   </div>
                 </div>
+
+
+            <div class="navbar-custom-menu" id="turnglobe">
+              <div class="alert alert-info sideColor">
+
+                <div id="worldmap"></div>
+
+                </div>
+              </div>
 
             </nav>
 
@@ -285,7 +295,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- jQuery 2.1.4 -->
 
-
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <script src="dist/js/globe.js"></script>
         <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
         <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
         <script src="plugins/slimScroll/jquery.slimscroll.js"></script>
